@@ -1,0 +1,3 @@
+RewriteEngine on
+# RewriteBase /workspace/rpr/trunk/proxy
+RewriteRule ^(.*) proxy.php?call=$1 [QSA,L]

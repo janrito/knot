@@ -1,0 +1,73 @@
+﻿*{
+	margin: 0;
+	padding: 0;
+}
+
+body{
+	font-size: 10pt;
+	line-height: 1.2em;
+	background: #dddddd;
+	color: #aa9999;
+	font-family: 'Lucida Grande', sans-serif;
+}
+
+a{
+	color: #aa9999;
+	text-decoration: none;
+}
+
+#controls{
+	margin: 0;
+	background: #333333;
+	padding: 1em;
+	border-bottom: 2px #aa9999 solid;
+}
+
+#lemmaForm{
+	clear: both;
+	overflow: hidden;
+}
+
+#lemmaForm input{
+	padding:.3em .2em;
+	border: none;
+	font-size: 1em;
+}
+
+
+#lemmaForm label{
+	display: none;
+}
+
+#lemmaForm .input, #lemmaForm input {
+	float: left;
+}
+
+#lemmaForm .zoom {
+	font-size: 2em;
+	margin: 0 .4em .2em;
+}
+
+#lemmaForm .colorp {
+	width: 15px;
+	height: 15px;
+	float: left;
+	margin: 0em .4em .2em;
+	border: 1px solid #dddddd;
+}
+
+#lemmaForm #abs_cp {
+	display: none;
+	padding: .2em;
+	width: 200px;
+	position: absolute;
+	background: #555555;
+	border: 1px #997777 solid;
+	
+}
+
+#legend .knotlegend{
+	display: inline;
+	padding: .2em .3em;
+}
+

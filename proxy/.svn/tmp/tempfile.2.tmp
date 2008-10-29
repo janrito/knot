@@ -1,0 +1,17 @@
+<?php
+<<<<<<< .mine
+	//$real_proxy = "http://monk.lis.uiuc.edu:7070/monkproxy2/";
+	$real_proxy = "http://monk.lis.uiuc.edu:8888/monkmiddleware/get/";
+	$url = "{$real_proxy}{$_REQUEST["call"]}?{$_SERVER["QUERY_STRING"]}";
+	header("Content-type: text/xml");
+	echo file_get_contents($url);
+	exit;
+
+=======
+    $real_proxy = "http://monk.lis.uiuc.edu:8888/monkmiddleware/";
+    $url = "{$real_proxy}{$_REQUEST["call"]}?{$_SERVER["QUERY_STRING"]}";
+    header("Content-type: text/xml");
+    echo file_get_contents($url);
+    exit;
+>>>>>>> .r2844
+?>

@@ -1,0 +1,52 @@
+8
+
+dir
+3103
+svn://nora.lis.uiuc.edu/monkWorkbench/trunk/resources/proxy
+svn://nora.lis.uiuc.edu
+
+
+
+2008-04-22T20:29:10.015682Z
+2842
+andrew_james_macdonald@yahoo.com
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+84a38216-1d16-0410-9358-dfa4d73fcd89
+
+proxy.php
+file
+
+
+
+
+2008-05-14T03:11:15.000000Z
+4a3b312357099e412e50ffbe4eee6c0a
+2008-04-22T20:29:10.015682Z
+2842
+andrew_james_macdonald@yahoo.com
+
+.htaccess
+file
+
+
+
+
+2008-03-13T21:46:27.000000Z
+9baf59be32bb08d1af7860afc1d0aaaf
+2008-03-13T21:47:46.143591Z
+2756
+alejandro.giacometti@gmail.com
+
