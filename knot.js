@@ -18,23 +18,21 @@ Knot = function () {
 
 	this.canvasEl =  jQuery('#canvas');
 	this.canvas = Raphael('canvas', 600, 600);
+	
+	this.canvas.circle(300,300,20).attr({'fill': '#666666', 'stroke': '#666666'});
+	this.paths = this.canvas.group().toFront();
+	this.paths.circle(300, 300,20).attr({'fill': '#666666', 'stroke': '#666666', 'opacity': 0.5});
+	
+	//form
+	
 	this.lemmaForm = jQuery('#lemmaForm');
 	this.lemmaEl = jQuery("#lemma", this.lemmaForm);
-	
-	this.workEl = jQuery('#work');
-	this.legendEl = jQuery('#legend');
-	
 	this.lemma = null;
-	
 	this.color = null;
 	
-	this.work = null;
-	
-	this.paths = this.canvas.group();
-	this.pathsStack = [];
-	
-
-	//defaults
+	//help
+	this.workEl = jQuery('#work');
+	this.legendEl = jQuery('#legend');
 
 	//proxy
 
@@ -46,15 +44,17 @@ Knot = function () {
 
 	// xml work list
 	this.cachedData = null;
+	this.work = null;
 
 };
 
 Knot.prototype = {
 	init : function () {
 		var knot = this;
-
+		
 		knot.loadData();
 		
+		//color choosing
 		var col = jQuery('#abs_cp');
 		
 		jQuery('.colorp', col).click( function() {
@@ -73,6 +73,8 @@ Knot.prototype = {
 			}, function () {
 				col.hide();
 			});
+			
+		// search box
 		
 		knot.lemmaEl.bind('blur', function () {
 			var searchterm = jQuery(this).val();
@@ -90,6 +92,7 @@ Knot.prototype = {
 			}
 		});
 		
+		// search submit
 		knot.lemmaForm.bind('submit', function (e) {
 			e.preventDefault();
 			knot.lemma = new RegExp( '\\b' + knot.lemmaEl.val() + '\\b', 'gim');
@@ -97,6 +100,7 @@ Knot.prototype = {
 			knot.draw();
 		});
 		
+		// zoom
 		jQuery('#bigger').click( function(e) {
 			e.preventDefault();
 			knot.paths.scale(1.1, 1.1);
@@ -106,6 +110,25 @@ Knot.prototype = {
 			e.preventDefault();
 			knot.paths.scale(.9, .9);
 		});
+		
+		// move around
+		
+		knot.canvasEl.bind('mousedown', function (clickEvent) {
+			var prevpos = {pageX: clickEvent.pageX, pageY: clickEvent.pageY};
+			knot.canvasEl.bind('mousemove', function (moveEvent) {
+				knot.travel(moveEvent.pageX - prevpos.pageX, moveEvent.pageY - prevpos.pageY);
+				prevpos = {pageX: moveEvent.pageX, pageY: moveEvent.pageY};
+			});
+			knot.canvasEl.bind('mouseup', function () {
+				knot.canvasEl.unbind('mousemove');
+			});
+		});
+	},
+	
+	travel: function (deltaX, deltaY) {
+		var knot = this;
+		console.log('(' + deltaX + ', ' + deltaY + ')');
+		knot.paths.translate(deltaX, deltaY);
 	},
 	
 	loadData: function () {
@@ -182,7 +205,7 @@ Knot.prototype = {
 		do {
 			
 			
-			var pathlength = (knot.lemma.lastIndex - lastmatch)/worksize * 1000;
+			var pathlength = (knot.lemma.lastIndex - lastmatch)/worksize * 2000;
 			var coordinates = [Math.cos(angle) * pathlength, Math.sin(angle) * pathlength];
 			
 		
@@ -208,9 +231,13 @@ Knot.prototype = {
 	},
 	
 	addKnotControl: function (knotObj) {
-		var knot = this;
-		knot.pathsStack.push(knotObj);
-		jQuery('<div class="knotlegend" style="color:' + knotObj.color + '">' + knotObj.query + '</div>').appendTo(knot.legendEl);
+		var knot = this;;
+		var legend = jQuery('<div class="knotlegend" style="color:' + knotObj.color + '">' + knotObj.query + '</div>').appendTo(knot.legendEl);
+		
+		legend.click(function () {
+			jQuery(knotObj.path[0]).remove();
+			legend.remove();
+		});
 	}
 
 

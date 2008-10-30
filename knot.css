@@ -6,7 +6,7 @@
 body{
 	font-size: 10pt;
 	line-height: 1.2em;
-	background: #dddddd;
+	background: #444444;
 	color: #aa9999;
 	font-family: 'Lucida Grande', sans-serif;
 }
@@ -69,5 +69,15 @@ a{
 #legend .knotlegend{
 	display: inline;
 	padding: .2em .3em;
+}
+
+
+#canvas {
+	background: #eeeeee;
+	width: 600px;
+	height: 600px;
+	margin: 0;
+	padding: 0;
+	border: 1px solid #555555;
 }
 
