@@ -127,7 +127,6 @@ Knot.prototype = {
 	
 	travel: function (deltaX, deltaY) {
 		var knot = this;
-		console.log('(' + deltaX + ', ' + deltaY + ')');
 		knot.paths.translate(deltaX, deltaY);
 	},
 	
@@ -144,7 +143,6 @@ Knot.prototype = {
 				knot.cachedData = response;
 			},
 			error: function (response, status, errorThrown) {
-				console.log(errorThrown);
 				knot.cachedData = response;
 			},
 			complete: function () {
