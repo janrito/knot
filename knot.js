@@ -189,7 +189,7 @@ Knot.prototype = {
 			}).moveTo(300, 300).relatively();
 	
 		
-		var angle = Math.PI/4;
+		var angle = 0;
 		var lastmatch = 0;
 		
 		var drawing = function (x, y) {
@@ -198,23 +198,25 @@ Knot.prototype = {
 			}, 300);
 		}
 		
-		knot.lemma.exec(knot.work);
+		var found = 0;
 		
 		do {
 			
+			knot.lemma.exec(knot.work);
+			found = knot.lemma.lastIndex || knot.work.length;
 			
-			var pathlength = (knot.lemma.lastIndex - lastmatch)/worksize * 2000;
+			var pathlength = (found - lastmatch)/worksize * 2000;
 			var coordinates = [Math.cos(angle) * pathlength, Math.sin(angle) * pathlength];
 			
 		
 			drawing.apply(this, coordinates);
 			
 			
-			
 			angle = (angle + Math.PI/4) % (2 * Math.PI);
-			lastmatch = knot.lemma.lastIndex;
 			
-		} while (knot.lemma.exec(knot.work))
+			lastmatch = found;
+			
+		} while (found != knot.work.length)
 		
 		newPath.toFront();
 		
