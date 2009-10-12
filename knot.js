@@ -12,7 +12,7 @@ Knot = function () {
 	// descriptiors
 	this.label = this.options.label || "Knot";
 	this.description = this.options.description || "Knot Visualization";
-	this.window =  this.window,
+	this.window =  this.window;
 
 	// set containers
 
@@ -38,8 +38,9 @@ Knot = function () {
 
 	this.api = this.options.api || 
 	{
-		proxy: 'proxy/',
-		getWork: '/get/CorpusManager.getWork?id=ncf-22501&format=xml'	
+		proxy: 'proxy/?call=',
+		getWork: this.options.data || undefined,
+		selector: this.options.selector || 'body'
 	};
 
 	// xml work list
@@ -51,6 +52,10 @@ Knot = function () {
 Knot.prototype = {
 	init : function () {
 		var knot = this;
+		if(knot.api.getWork === undefined) {
+			throw 'Error: No data url (Knot) ';
+			return 0;
+		}
 		
 		knot.loadData();
 		
@@ -79,7 +84,7 @@ Knot.prototype = {
 		knot.lemmaEl.bind('blur', function () {
 			var searchterm = jQuery(this).val();
 			
-			if (searchterm.length == 0) {
+			if (searchterm.length === 0) {
 				knot.lemmaEl.val(jQuery('label', knot.lemmaForm).text());
 			}
 		}).blur();
@@ -133,24 +138,27 @@ Knot.prototype = {
 	loadData: function () {
 		var knot = this;
 
+		
 		jQuery.ajax({
 			type: 'GET',
 			url: knot.api.proxy + knot.api.getWork,
+			dataType: 'html',
 			beforeSend: function () {
 				knot.blockUI(0);
 			},
 			success: function (response) {
-				knot.cachedData = response;
+				knot.cachedData = jQuery(response);
 			},
 			error: function (response, status, errorThrown) {
-				knot.cachedData = response;
+				throw "Could not load " + knot.api.getWork;
 			},
 			complete: function () {
-				knot.work = jQuery('div', knot.cachedData).text();
-				
+				knot.work = jQuery(knot.api.selector, knot.cachedData).eq(0).text();
+			//	jQuery('<div />').appendTo(jQuery('body')).text(knot.work);
 				knot.unblockUI();
 			}
 		});
+		
 	},
 	
 	blockUI: function() {
@@ -196,7 +204,7 @@ Knot.prototype = {
 			var timer = setTimeout( function() {
 				newPath.lineTo(x, y);
 			}, 300);
-		}
+		};
 		
 		var found = 0;
 		
@@ -231,7 +239,7 @@ Knot.prototype = {
 	},
 	
 	addKnotControl: function (knotObj) {
-		var knot = this;;
+		var knot = this;
 		var legend = jQuery('<div class="knotlegend" style="color:' + knotObj.color + '">' + knotObj.query + '</div>').appendTo(knot.legendEl);
 		
 		legend.click(function () {
