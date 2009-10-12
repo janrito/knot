@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<meta http-equiv="cache-control" content="no-cache, must-revalidate" />
+	<title>Knot Document Visualization</title>
+	
+	<script type="text/javascript" src="lib/jquery-1.2.6.js"></script>
+	<script type="text/javascript" src="lib/jquery.blockUI.js"></script>
+	<script type="text/javascript" src="lib/master_raphael.js"></script>
+	
+
+
+
+	<!-- load rpr definition -->
+	<link rel="stylesheet" type="text/css" href="knot.css" />
+	<script type="text/javascript" src="knot.js"></script>
+
+	<script type="text/javascript">
+		var undefined = null;
+		var parseParameters = function (loc) {
+			var url = String(loc);
+			url = url.split(/[\?#]/);
+			var locs = {};
+			locs.parameters = {};
+			
+			locs.url = url[0] || null;
+			var parameterString = url[1] || null;
+			
+			if (parameterString) {
+				jQuery.each(parameterString.split(/[\&]/), function (index, parameter) {
+					var pair = parameter.split(/[=]/);
+					locs.parameters[pair[0]] = unescape(pair[1]) || null;
+				});
+			}
+			return locs;
+			
+		};
+		
+		
+		jQuery.noConflict();
+		var knotComponent;
+        
+		jQuery(document).ready(function(){
+			
+			var loc = parseParameters(window.location.href);
+			
+			var options = {
+				data: loc.parameters.data || undefined,
+				selector: loc.parameters.selector || undefined
+			};
+			
+			knotComponent = new Knot(options);
+			
+			knotComponent.init();
+			
+		});
+		
+	</script>
+	
+</head>
+<body>
+	<div id="controls">
+		<form name="lemmaForm" id="lemmaForm" action="" method="get" >
+			<label for="lemma">Enter search term</label>
+			<input type="text" name="lemma" id="lemma" value=""/>
+			<span class="input">
+				<div id="colorp" class="colorp" style="background: #aa3333;" ></div>
+				<div id="abs_cp">
+					<div class="colorp" style="background: #aa3333;" ></div>
+					<div class="colorp" style="background: #33aa33;" ></div>
+					<div class="colorp" style="background: #3333aa;" ></div>
+					<div class="colorp" style="background: #33aaaa;" ></div>
+					<div class="colorp" style="background: #aa33aa;" ></div>
+					<div class="colorp" style="background: #aaaa33;" ></div>
+				
+				</div>
+			</span>
+			<input type="submit" name="go" id="go" value="search">
+			
+			<a id="bigger" href="bigger" class="zoom input">+</a>
+			<span class="input label">Zoom</span>
+			<a id="smaller" href="smaller" class="zoom input">-</a>
+		</form>
+	</div>
+	<div id="legend"></div>
+	<div id="canvas">
+		
+	</div>
+	
+			
+</body>
+</html>
